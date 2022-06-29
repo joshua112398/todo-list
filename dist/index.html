@@ -20,7 +20,19 @@
             <li><button>TODAY</button></li>
             <li><button>THIS WEEK</button></li>
             <li><button>HIGH PRIORITY</button></li>
-            <li><button>PROJECTS</button></li>
+            <li>
+                <div class="nav-button">
+                    <button>PROJECTS</button>
+                    <button id="project-button">+</button>
+                </div>
+            </li>
+            <li>
+                <div id="project-list">
+                    <ul>
+                        <li><button>General</button></li>
+                    </ul>
+                </div>
+            </li>
         </ul>
     </nav>
 
@@ -38,6 +50,18 @@
             </div>
         </div>
     </main>
+
+    <div id="project-modal" class="modal">
+        <div class="modal-box">
+            <form>
+                <div>
+                    <label>Project Name:</label>
+                    <input id="project-input" type="text">
+                </div>
+                <button id="add-project-button">Confirm</button>
+            </form>
+        </div>
+    </div>
 
     <script src="main.js"></script>
 </body>

@@ -14,3 +14,5 @@ const project = function(title) {
 
     return {addTodo}
 }
+
+export {project};
