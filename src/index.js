@@ -1,9 +1,10 @@
 import './style.css';
 import {project} from "./project.js"
-import {addProjectDOM, clearProjectDisplay} from "./dom.js"
+import {addProjectDOM, clearProjectDisplay, switchProject} from "./dom.js"
 
 const logicController = (() => {
     const projectList = [];
+    let currentProject = "INBOX"; // default container for new todo items
 
     const projectButton = document.querySelector("#project-button");
     const addProjectButton = document.querySelector("#add-project-button");
@@ -27,6 +28,15 @@ const logicController = (() => {
             removeProject(projectDOM);
         });
     });
+
+    function loadProject(project) {
+        currentProject = project.title;
+        switchProject(project.title);
+        const addButton = document.querySelector("#add-task-button");
+        addButton.addEventListener("click", () => {
+            project.addTodo("a");
+        });
+    }
     
     function addProject() {
         // add code to display add project window here
@@ -53,4 +63,8 @@ const logicController = (() => {
         });
     }
 
+    return {loadProject};
 })();
+
+let inbox = project("INBOX");
+logicController.loadProject(inbox);

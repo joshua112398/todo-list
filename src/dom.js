@@ -27,6 +27,22 @@ const clearProjectDisplay = function() {
     }
 }
 
+const switchProject = function(title) {
+    const mainTitle = document.querySelector(".main-title");
+    while (mainTitle.firstChild) {
+        mainTitle.removeChild(mainTitle.firstChild);
+    }
+    const header = document.createElement("h2");
+    const button = document.createElement("button");
 
-export {addProjectDOM, clearProjectDisplay};
+    button.setAttribute("id", "add-task-button");
+    button.textContent = "Add";
+    header.textContent = title;
+
+    mainTitle.appendChild(header);
+    mainTitle.appendChild(button);
+}
+
+
+export {addProjectDOM, clearProjectDisplay, switchProject};
 
