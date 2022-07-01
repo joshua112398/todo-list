@@ -1,6 +1,6 @@
 import './style.css';
 import {project} from "./project.js"
-import {addProjectDOM} from "./dom.js"
+import {addProjectDOM, clearProjectDisplay} from "./dom.js"
 
 const logicController = (() => {
     const projectList = [];
@@ -19,8 +19,13 @@ const logicController = (() => {
         const newProject = new project(projectName);
         projectList.push(newProject);
         // display new project in DOM/website
-        addProjectDOM(projectName); 
+        const projectDOM = addProjectDOM(projectName, projectList.length-1); 
         addProjectModal.style.display = "none";
+        // add event Listener for removal of project
+        const removeButton = projectDOM.querySelector("#delete-project-button");
+        removeButton.addEventListener("click", () => {
+            removeProject(projectDOM);
+        });
     });
     
     function addProject() {
@@ -28,5 +33,24 @@ const logicController = (() => {
         console.log("Add Project clicked");
         addProjectModal.style.display = "flex";
     };
+
+    function removeProject(project) {
+        // to remove a project, remove it from the array, then reload DOM's project display
+        projectList.splice(project.dataset.index, 1);
+        reloadProjectDisplay();
+    };
+
+    function reloadProjectDisplay() {
+        clearProjectDisplay();
+        let index = 0;
+        projectList.forEach( (project) => {
+            const projectDOM = addProjectDOM(project.title, index);
+            const removeButton = projectDOM.querySelector("#delete-project-button");
+            removeButton.addEventListener("click", () => {
+                removeProject(projectDOM);
+            });
+            index += 1;
+        });
+    }
 
 })();

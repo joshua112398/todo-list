@@ -27,7 +27,7 @@ header {
 nav {
     background-color: rgb(239, 241, 241);
     padding: 10px;
-    font-size: 1.2rem;
+    font-size: 1rem;
     width: 150px;
 }
 
@@ -35,25 +35,34 @@ nav button {
     background-color: rgba(255, 255, 255, 0);
 }
 
-.nav-button {
-    display: flex;
-    justify-content: space-between;
+.nav-button, .project {
+    display: grid;
+    grid-template-columns: 1fr 16px;
+    justify-items: left;
 }
 
-#project-button {
+#project-button, #delete-project-button {
     width: 16px;
     height: 16px;
 }
 
-#project-button:hover {
+#project-button:hover, #delete-project-button:hover {
     cursor: pointer;
     background-color: rgb(182, 182, 182);
+}
+
+#project-list {
+    padding-left: 15px;
+}
+
+#delete-project-button {
+
 }
 
 ul {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
     list-style-type: none;
 }
 
@@ -117,7 +126,4 @@ main {
     border-radius: 10px;
 }
 
-#project-list {
-    padding-left: 10px;
-}
 

@@ -12,7 +12,7 @@ const project = function(title) {
         todos.splice(index, 1);
     }
 
-    return {addTodo}
+    return {addTodo, title}
 }
 
 export {project};
