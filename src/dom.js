@@ -43,6 +43,26 @@ const switchProject = function(title) {
     mainTitle.appendChild(button);
 }
 
+const addTodoDOM = function (title, description) {
+    const div = document.createElement("div");
+    div.classList.add("todo");
+    const checkbox = document.createElement("div");
+    checkbox.classList.add("checkbox");
+    const h3 = document.createElement("h3");
+    h3.textContent = title;
+    const p = document.createElement("p");
+    p.textContent = description;
 
-export {addProjectDOM, clearProjectDisplay, switchProject};
+    div.appendChild(checkbox);
+    div.appendChild(h3);
+    div.appendChild(p);
+
+    const todoList = document.querySelector(".todo-list");
+    todoList.appendChild(div);
+
+}
+
+
+
+export {addProjectDOM, clearProjectDisplay, switchProject, addTodoDOM};
 

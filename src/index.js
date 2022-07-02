@@ -1,6 +1,6 @@
 import './style.css';
 import {project} from "./project.js"
-import {addProjectDOM, clearProjectDisplay, switchProject} from "./dom.js"
+import {addProjectDOM, clearProjectDisplay, switchProject, addTodoDOM} from "./dom.js"
 
 const logicController = (() => {
     const projectList = [];
@@ -68,3 +68,4 @@ const logicController = (() => {
 
 let inbox = project("INBOX");
 logicController.loadProject(inbox);
+
