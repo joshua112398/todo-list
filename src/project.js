@@ -1,6 +1,6 @@
 // PROJECT OBJECT //////////////////////////////////
 
-import {addTodoDOM} from "./dom.js"
+import {addTodoDOM, clearTodoList} from "./dom.js"
 
 const project = function(title) {
 
@@ -11,20 +11,25 @@ const project = function(title) {
         todos.push(todo);
 
         // add todo item to DOM
-        addTodoDOM();
+        addTodoDOM(todo.title, todo.description);
     }
 
     const removeTodo = function(index) {
+        // remove todo item from logic
         todos.splice(index, 1);
+
+        // refresh updated DOM todo liset
+        reloadTodos();
     }
 
-    const displayTodos = function() {
+    const reloadTodos = function() {
+        clearTodoList();
         todos.forEach((todo) => {
             addTodoDOM(todo.title, todo.description);
         })
     }
 
-    return {addTodo, title}
+    return {addTodo, removeTodo, reloadTodos, todos, title}
 }
 
 export {project};

@@ -1,4 +1,4 @@
-// MODULE FOR DOM MANIPULATION AND EVENT LISTENERS
+// MODULE FOR DOM MANIPULATION
 
 
 const addProjectDOM = function (name, index) {
@@ -27,7 +27,7 @@ const clearProjectDisplay = function() {
     }
 }
 
-const switchProject = function(title) {
+const loadTitle = function(title) {
     const mainTitle = document.querySelector(".main-title");
     while (mainTitle.firstChild) {
         mainTitle.removeChild(mainTitle.firstChild);
@@ -41,6 +41,13 @@ const switchProject = function(title) {
 
     mainTitle.appendChild(header);
     mainTitle.appendChild(button);
+}
+
+const clearTodoList = function(project) {
+    const todoList = document.querySelector(".todo-list");
+    while (todoList.firstChild) {
+        todoList.removeChild(todoList.firstChild);
+    }
 }
 
 const addTodoDOM = function (title, description) {
@@ -64,5 +71,5 @@ const addTodoDOM = function (title, description) {
 
 
 
-export {addProjectDOM, clearProjectDisplay, switchProject, addTodoDOM};
+export {addProjectDOM, clearProjectDisplay, loadTitle, clearTodoList, addTodoDOM};
 

@@ -1,6 +1,7 @@
 import './style.css';
 import {project} from "./project.js"
-import {addProjectDOM, clearProjectDisplay, switchProject, addTodoDOM} from "./dom.js"
+import {todo} from "./todo.js"
+import {addProjectDOM, clearProjectDisplay, loadTitle, clearTodoList} from "./dom.js"
 
 const logicController = (() => {
     const projectList = [];
@@ -31,11 +32,13 @@ const logicController = (() => {
 
     function loadProject(project) {
         currentProject = project.title;
-        switchProject(project.title);
+        loadTitle(project.title);
         const addButton = document.querySelector("#add-task-button");
         addButton.addEventListener("click", () => {
             project.addTodo("a");
+            console.log(project);
         });
+        project.reloadTodos();
     }
     
     function addProject() {
@@ -67,5 +70,24 @@ const logicController = (() => {
 })();
 
 let inbox = project("INBOX");
+let outbox = project("OUTBOX");
 logicController.loadProject(inbox);
 
+let t1 = todo("T1");
+let t2 = todo("T2");
+inbox.addTodo(t1);
+inbox.addTodo(t2);
+console.log(inbox);
+inbox.removeTodo(0);
+console.log(inbox);
+inbox.addTodo(t2);
+inbox.addTodo(t2);
+
+outbox.addTodo(t1);
+outbox.addTodo(t1);
+outbox.addTodo(t1);
+logicController.loadProject(outbox);
+logicController.loadProject(inbox);
+logicController.loadProject(outbox);
+logicController.loadProject(outbox);
+console.log(outbox);
