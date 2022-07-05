@@ -55,10 +55,6 @@ nav button {
     padding-left: 15px;
 }
 
-#delete-project-button {
-
-}
-
 ul {
     display: flex;
     flex-direction: column;
@@ -79,7 +75,7 @@ ul {
 .modal-box {
     box-sizing: border-box;
     width: 300px;
-    height: 120px;
+    height: min-content;
     background-color: white;
     border: 2px solid rgb(101, 200, 230);
     padding: 20px;
@@ -94,16 +90,23 @@ form {
 }
 
 form button {
+    box-sizing: border-box;
     width: 100px;
     background-color: rgb(101, 200, 230);
+    border: 2px solid rgb(101, 200, 230);
     border-radius: 10px;
     color: white;
     padding: 4px;
     align-self: end;
 }
 
-input {
+textarea {
+    resize: none;
+}
+
+input, textarea{
     border: 1px solid black;
+    padding: 5px;
 }
 
 main {
@@ -129,7 +132,7 @@ main {
     color: white;
 }
 
-#add-task-button:hover {
+#add-task-button:hover, form button:hover {
     background-color: white;
     color: rgb(101, 200, 230);
     transition: 0.2s;

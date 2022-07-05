@@ -3,13 +3,19 @@ import {project} from "./project.js"
 import {todo} from "./todo.js"
 import {addProjectDOM, clearProjectDisplay, loadTitle, clearTodoList} from "./dom.js"
 
+let inbox = project("INBOX");
+let outbox = project("OUTBOX");
+
 const logicController = (() => {
     const projectList = [];
-    let currentProject = "INBOX"; // default container for new todo items
+
+    let currentProject = inbox; // default container for new todo items
 
     const projectButton = document.querySelector("#project-button");
     const addProjectButton = document.querySelector("#add-project-button");
     const addProjectModal = document.querySelector("#project-modal");
+    const addTodoButton = document.querySelector("#add-todo-button");
+    const addTodoModal = document.querySelector("#todo-modal");
 
     projectButton.addEventListener("click", addProject);
 
@@ -35,15 +41,30 @@ const logicController = (() => {
         loadTitle(project.title);
         const addButton = document.querySelector("#add-task-button");
         addButton.addEventListener("click", () => {
-            project.addTodo("a");
-            console.log(project);
+            addTodoModal.style.display = "flex";
+            const addTodoForm = addTodoModal.querySelector(".modal-box form");
+            addTodoForm.removeChild(addTodoForm.lastElementChild);
+            const confirmTodoButton = document.createElement("button");
+            confirmTodoButton.setAttribute("id", "add-todo-button");
+            confirmTodoButton.textContent = "Confirm";
+            confirmTodoButton.addEventListener("click", (e) => {
+                e.preventDefault();
+                console.log("Hey");
+                const todoName = document.querySelector("#todo-name").value;
+                const todoDescription = document.querySelector("#todo-desc").value;
+
+                const newTodo = new todo(todoName, todoDescription);
+                project.addTodo(newTodo);
+                addTodoModal.style.display = "none";
+            });
+            addTodoForm.appendChild(confirmTodoButton);
+            
         });
         project.reloadTodos();
     }
     
     function addProject() {
         // add code to display add project window here
-        console.log("Add Project clicked");
         addProjectModal.style.display = "flex";
     };
 
@@ -69,8 +90,6 @@ const logicController = (() => {
     return {loadProject};
 })();
 
-let inbox = project("INBOX");
-let outbox = project("OUTBOX");
 logicController.loadProject(inbox);
 
 let t1 = todo("T1");
