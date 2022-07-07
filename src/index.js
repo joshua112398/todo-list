@@ -9,7 +9,7 @@ let outbox = project("OUTBOX");
 const logicController = (() => {
     const projectList = [];
 
-    let currentProject = inbox; // default container for new todo items
+    let currentProject = "INBOX"; // default container for new todo items
 
     const projectButton = document.querySelector("#project-button");
     const addProjectButton = document.querySelector("#add-project-button");
@@ -31,14 +31,24 @@ const logicController = (() => {
         addProjectModal.style.display = "none";
         // add event Listener for removal of project
         const removeButton = projectDOM.querySelector("#delete-project-button");
-        removeButton.addEventListener("click", () => {
-            removeProject(projectDOM);
+        removeButton.addEventListener("click", (e) => {
+            e.stopPropagation();
+            removeProject(projectDOM, newProject);
+        });
+        // add event Listener for selection of project
+        projectDOM.addEventListener("click", () => {
+            loadProject(newProject);
         });
     });
 
     function loadProject(project) {
-        currentProject = project.title;
+        // show title and set project as the only active project
         loadTitle(project.title);
+        projectList.forEach((proj) => {
+            proj.setCurrentProject(false);
+        })
+        project.setCurrentProject(true);
+        // implement the "add task" button
         const addButton = document.querySelector("#add-task-button");
         addButton.addEventListener("click", () => {
             addTodoModal.style.display = "flex";
@@ -68,10 +78,14 @@ const logicController = (() => {
         addProjectModal.style.display = "flex";
     };
 
-    function removeProject(project) {
+    function removeProject(projectDOM, project) {
         // to remove a project, remove it from the array, then reload DOM's project display
-        projectList.splice(project.dataset.index, 1);
+        projectList.splice(projectDOM.dataset.index, 1);
         reloadProjectDisplay();
+        // if removed project was the active project, load the default "Inbox" project
+        if (project.isActiveProject() === true) {
+            loadProject(inbox);
+        }
     };
 
     function reloadProjectDisplay() {
@@ -80,8 +94,12 @@ const logicController = (() => {
         projectList.forEach( (project) => {
             const projectDOM = addProjectDOM(project.title, index);
             const removeButton = projectDOM.querySelector("#delete-project-button");
-            removeButton.addEventListener("click", () => {
-                removeProject(projectDOM);
+            removeButton.addEventListener("click", (e) => {
+                e.stopPropagation();
+                removeProject(projectDOM, project);
+            });
+            projectDOM.addEventListener("click", () => {
+                loadProject(project);
             });
             index += 1;
         });
@@ -91,22 +109,6 @@ const logicController = (() => {
 })();
 
 logicController.loadProject(inbox);
-
-let t1 = todo("T1");
-let t2 = todo("T2");
-inbox.addTodo(t1);
-inbox.addTodo(t2);
-console.log(inbox);
-inbox.removeTodo(0);
-console.log(inbox);
-inbox.addTodo(t2);
-inbox.addTodo(t2);
-
-outbox.addTodo(t1);
-outbox.addTodo(t1);
-outbox.addTodo(t1);
 logicController.loadProject(outbox);
 logicController.loadProject(inbox);
-logicController.loadProject(outbox);
-logicController.loadProject(outbox);
 console.log(outbox);

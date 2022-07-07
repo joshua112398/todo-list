@@ -50,15 +50,21 @@ const clearTodoList = function(project) {
     }
 }
 
-const addTodoDOM = function (title, description) {
+const addTodoDOM = function (todo, index, project) {
     const div = document.createElement("div");
+    div.addEventListener("click", toggleDescription);
     div.classList.add("todo");
     const checkbox = document.createElement("div");
     checkbox.classList.add("checkbox");
+    checkbox.addEventListener("click", () => {
+        console.log(project);
+        project.removeTodo(index);
+    });
     const h3 = document.createElement("h3");
-    h3.textContent = title;
+    h3.textContent = todo.title;
     const p = document.createElement("p");
-    p.textContent = description;
+    p.textContent = todo.description;
+    p.style.display = "none";
 
     div.appendChild(checkbox);
     div.appendChild(h3);
@@ -66,7 +72,15 @@ const addTodoDOM = function (title, description) {
 
     const todoList = document.querySelector(".todo-list");
     todoList.appendChild(div);
+}
 
+const toggleDescription = function () {
+    const description = this.querySelector("p");
+    if (description.style.display === "none") {
+        description.style.display = "block";
+    } else {
+        description.style.display = "none";
+    }
 }
 
 
