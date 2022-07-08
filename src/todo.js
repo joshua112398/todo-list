@@ -1,10 +1,19 @@
 // TODO OBJECT //////////////////////////////////
 
-const todo = function(title, description) {
+const todo = function(todoTitle, todoDescription) {
 
+    let title = todoTitle;
+    let description = todoDescription;
 
+    const changeDescription = function(newDescription) {
+        description = newDescription;
+    };
 
-    return {title, description}
+    const getDescription = function() {
+        return description;
+    };
+
+    return {changeDescription, getDescription, title}
 }
 
 export {todo};

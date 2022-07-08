@@ -1,6 +1,6 @@
 // PROJECT OBJECT //////////////////////////////////
 
-import {addTodoDOM, clearTodoList} from "./dom.js"
+import {addTodoDOM, clearTodoList, editDescriptionDOM} from "./dom.js"
 
 const project = function(title) {
 
@@ -12,7 +12,28 @@ const project = function(title) {
         todos.push(todo);
 
         // add todo item to DOM
-        addTodoDOM(todo, todos.length - 1, this);
+        const todoDOM = addTodoDOM(todo, todos.length - 1, this);
+        const todoDescription = todoDOM.querySelector("p");
+        todoDescription.addEventListener("click", (e) => {
+            e.stopPropagation();
+            editDescription(todoDOM, todos.length - 1)
+        });
+    }
+
+    const editDescription = function(todoDOM, index) {
+        const todoDescription = todoDOM.querySelector("p");
+        const inputDesc = editDescriptionDOM(todoDescription);
+        inputDesc.addEventListener("blur", () => {
+            changeTodoDescription(index, inputDesc.value);
+            const newDescription = document.createElement("p");
+            newDescription.textContent = inputDesc.value;
+            newDescription.addEventListener("click", (e) => {
+                e.stopPropagation();
+                editDescription(todoDOM, index);
+            });
+            todoDOM.appendChild(newDescription);
+            todoDOM.removeChild(inputDesc);
+        })
     }
 
     const removeTodo = function(index) {
@@ -27,9 +48,18 @@ const project = function(title) {
         clearTodoList();
         let index = 0;
         todos.forEach((todo) => {
-            addTodoDOM(todo, index, this);
+            const todoDOM = addTodoDOM(todo, index, this);
+            const todoDescription = todoDOM.querySelector("p");
+            todoDescription.addEventListener("click", (e) => {
+                e.stopPropagation();
+                editDescription(todoDOM, todos.length - 1)
+            });
             index += 1;
         })
+    }
+
+    const changeTodoDescription = function(index, newDescription) {
+        todos[index].changeDescription(newDescription);
     }
 
     const setCurrentProject = function(state) {
@@ -44,7 +74,7 @@ const project = function(title) {
         return activeProject;
     }
 
-    return {addTodo, removeTodo, reloadTodos, setCurrentProject, isActiveProject, todos, title}
+    return {addTodo, removeTodo, reloadTodos, changeTodoDescription, setCurrentProject, isActiveProject, todos, title}
 }
 
 export {project};

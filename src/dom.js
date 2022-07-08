@@ -1,5 +1,6 @@
 // MODULE FOR DOM MANIPULATION
 
+import {todo} from "./todo.js"
 
 const addProjectDOM = function (name, index) {
     const projectList = document.querySelector("#project-list ul");
@@ -63,11 +64,7 @@ const addTodoDOM = function (todo, index, project) {
     const h3 = document.createElement("h3");
     h3.textContent = todo.title;
     const p = document.createElement("p");
-    p.textContent = todo.description;
-    p.addEventListener("click", (e) => {
-        e.stopPropagation();
-        editDescription(p);
-    })
+    p.textContent = todo.getDescription();
     p.style.display = "none";
 
     div.appendChild(checkbox);
@@ -76,6 +73,8 @@ const addTodoDOM = function (todo, index, project) {
 
     const todoList = document.querySelector(".todo-list");
     todoList.appendChild(div);
+
+    return div;
 }
 
 const toggleDescription = function () {
@@ -92,27 +91,18 @@ const toggleDescription = function () {
     }
 }
 
-const editDescription = function (descriptionDOM) {
+const editDescriptionDOM = function (descriptionDOM) {
     const oldDescription = descriptionDOM.textContent;
-    const todo = descriptionDOM.parentNode;
-    todo.removeChild(todo.lastChild); // delete description
+    const todoDOM = descriptionDOM.parentNode;
+    todoDOM.removeChild(todoDOM.lastChild); // delete description
     const descInput = document.createElement("input");
-    todo.appendChild(descInput);
-    // Once user clicks outside the textbox, update the description to the inputted value
-    descInput.addEventListener("blur", () => {
-        const newDescription = document.createElement("p");
-        newDescription.textContent = descInput.value;
-        newDescription.addEventListener("click", (e) => {
-            e.stopPropagation();
-            editDescription(newDescription);
-        });
-        todo.appendChild(newDescription);
-        todo.removeChild(descInput);
-    })
+    descInput.value = oldDescription;
+    todoDOM.appendChild(descInput);
+    return descInput;
     
 }
 
 
 
-export {addProjectDOM, clearProjectDisplay, loadTitle, clearTodoList, addTodoDOM};
+export {addProjectDOM, clearProjectDisplay, loadTitle, clearTodoList, addTodoDOM, editDescriptionDOM};
 
