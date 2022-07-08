@@ -16,8 +16,13 @@ const logicController = (() => {
     const addProjectModal = document.querySelector("#project-modal");
     const addTodoButton = document.querySelector("#add-todo-button");
     const addTodoModal = document.querySelector("#todo-modal");
+    const inboxButton = document.querySelector("#inbox");
 
     projectButton.addEventListener("click", addProject);
+
+    inboxButton.addEventListener("click", () => {
+        loadProject(inbox);
+    })
 
 
     addProjectButton.addEventListener("click", (e) => {
@@ -48,6 +53,7 @@ const logicController = (() => {
             proj.setCurrentProject(false);
         })
         project.setCurrentProject(true);
+        reloadProjectDisplay();
         // implement the "add task" button
         const addButton = document.querySelector("#add-task-button");
         addButton.addEventListener("click", () => {
@@ -91,8 +97,14 @@ const logicController = (() => {
     function reloadProjectDisplay() {
         clearProjectDisplay();
         let index = 0;
+        
         projectList.forEach( (project) => {
             const projectDOM = addProjectDOM(project.title, index);
+            // if project is the active project, highlight it
+            if (project.isActiveProject() === true) {
+                projectDOM.setAttribute("id", "active-project");
+            }
+            // add the delete button to each project and its event listener
             const removeButton = projectDOM.querySelector("#delete-project-button");
             removeButton.addEventListener("click", (e) => {
                 e.stopPropagation();

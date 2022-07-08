@@ -64,6 +64,10 @@ const addTodoDOM = function (todo, index, project) {
     h3.textContent = todo.title;
     const p = document.createElement("p");
     p.textContent = todo.description;
+    p.addEventListener("click", (e) => {
+        e.stopPropagation();
+        editDescription(p);
+    })
     p.style.display = "none";
 
     div.appendChild(checkbox);
@@ -76,11 +80,36 @@ const addTodoDOM = function (todo, index, project) {
 
 const toggleDescription = function () {
     const description = this.querySelector("p");
+    // If no description exists, abort function
+    if (description === null) {
+        return;
+    }
+    // Else, toggle description visibility
     if (description.style.display === "none") {
         description.style.display = "block";
     } else {
         description.style.display = "none";
     }
+}
+
+const editDescription = function (descriptionDOM) {
+    const oldDescription = descriptionDOM.textContent;
+    const todo = descriptionDOM.parentNode;
+    todo.removeChild(todo.lastChild); // delete description
+    const descInput = document.createElement("input");
+    todo.appendChild(descInput);
+    // Once user clicks outside the textbox, update the description to the inputted value
+    descInput.addEventListener("blur", () => {
+        const newDescription = document.createElement("p");
+        newDescription.textContent = descInput.value;
+        newDescription.addEventListener("click", (e) => {
+            e.stopPropagation();
+            editDescription(newDescription);
+        });
+        todo.appendChild(newDescription);
+        todo.removeChild(descInput);
+    })
+    
 }
 
 
