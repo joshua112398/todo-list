@@ -14,12 +14,18 @@ const project = function(title) {
         // add todo item to DOM
         const todoDOM = addTodoDOM(todo, todos.length - 1, this);
         const todoDescription = todoDOM.querySelector("p");
+
+        // if description is clicked, run the editDescription function
         todoDescription.addEventListener("click", (e) => {
             e.stopPropagation();
             editDescription(todoDOM, todos.length - 1)
         });
+
+        console.log(this);
     }
 
+    // editDescription lets users edit a description; then the description of the todo gets
+    // updated to the new one the user entered once the user clicks out of the text box
     const editDescription = function(todoDOM, index) {
         const todoDescription = todoDOM.querySelector("p");
         const inputDesc = editDescriptionDOM(todoDescription);
@@ -44,6 +50,7 @@ const project = function(title) {
         this.reloadTodos();
     }
 
+    // reload/refresh the display of todo items
     const reloadTodos = function() {
         clearTodoList();
         let index = 0;
@@ -58,10 +65,13 @@ const project = function(title) {
         })
     }
 
+    // change the description property of the specified todo object
     const changeTodoDescription = function(index, newDescription) {
         todos[index].changeDescription(newDescription);
+        console.log(todos[index].getDescription());
     }
 
+    // set this project as the currently active project
     const setCurrentProject = function(state) {
         if (state === true) {
             activeProject = true;
@@ -70,6 +80,7 @@ const project = function(title) {
         }
     }
 
+    // check if this project is the currently active project
     const isActiveProject = function() {
         return activeProject;
     }

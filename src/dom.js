@@ -1,6 +1,5 @@
 // MODULE FOR DOM MANIPULATION
 
-import {todo} from "./todo.js"
 
 const addProjectDOM = function (name, index) {
     const projectList = document.querySelector("#project-list ul");
@@ -61,14 +60,24 @@ const addTodoDOM = function (todo, index, project) {
         console.log(project);
         project.removeTodo(index);
     });
+    // add title
     const h3 = document.createElement("h3");
     h3.textContent = todo.title;
+    // highlight red if high priority
+    if (todo.priority === true) {
+        div.style.border = "2px solid red";
+    }
+    // add due date
+    const dueDate = document.createElement("h3");
+    dueDate.textContent = todo.dueDate;
+    // add description
     const p = document.createElement("p");
     p.textContent = todo.getDescription();
     p.style.display = "none";
 
     div.appendChild(checkbox);
     div.appendChild(h3);
+    div.appendChild(dueDate);
     div.appendChild(p);
 
     const todoList = document.querySelector(".todo-list");

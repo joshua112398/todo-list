@@ -2,6 +2,7 @@ import './style.css';
 import {project} from "./project.js"
 import {todo} from "./todo.js"
 import {addProjectDOM, clearProjectDisplay, loadTitle, clearTodoList} from "./dom.js"
+import {format} from "date-fns"
 
 let inbox = project("INBOX");
 let outbox = project("OUTBOX");
@@ -54,7 +55,7 @@ const logicController = (() => {
         })
         project.setCurrentProject(true);
         reloadProjectDisplay();
-        // implement the "add task" button
+        // implement the "add task" button and the form for creating a new task
         const addButton = document.querySelector("#add-task-button");
         addButton.addEventListener("click", () => {
             addTodoModal.style.display = "flex";
@@ -63,13 +64,18 @@ const logicController = (() => {
             const confirmTodoButton = document.createElement("button");
             confirmTodoButton.setAttribute("id", "add-todo-button");
             confirmTodoButton.textContent = "Confirm";
+            // when "Confirm" button is clicked, new task/todo is added to current project
+            // Grab the name, description, due date, and priority status
             confirmTodoButton.addEventListener("click", (e) => {
                 e.preventDefault();
                 console.log("Hey");
                 const todoName = document.querySelector("#todo-name").value;
                 const todoDescription = document.querySelector("#todo-desc").value;
+                const dateString = document.querySelector("#todo-date").value;
+                const todoDate = format(new Date(dateString), "MM/dd/yyyy");
+                const todoPriority = document.querySelector("#todo-priority").checked;
 
-                const newTodo = new todo(todoName, todoDescription);
+                const newTodo = new todo(todoName, todoDescription, todoDate, todoPriority);
                 project.addTodo(newTodo);
                 addTodoModal.style.display = "none";
             });
